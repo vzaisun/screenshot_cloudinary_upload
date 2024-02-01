@@ -5,7 +5,18 @@ const fs = require('fs');
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
+const allowedOrigins = ['http://localhost:3000', 'https://screenshot-theta-ten.vercel.app'];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+
+app.use(cors(corsOptions));
 
 const PORT = process.env.PORT || 5000;
 
