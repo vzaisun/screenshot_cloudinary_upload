@@ -22,6 +22,7 @@ const upload = multer({ storage: storage });
 
 
 app.post('/upload', upload.single('image'), async (req, res) => {
+   res.setHeader('Access-Control-Allow-Origin', '*');
     try {
       const result = await cloudinary.uploader.upload("data:image/jpeg;base64," + req.file.buffer.toString('base64'), { folder: 'images' });
       res.status(200).json({ url: result.secure_url });
